@@ -45,6 +45,8 @@ class FramePrincipal(tk.Frame):
         self.direccion_variable = tk.StringVar()
         self.celular_variable = tk.IntVar()
 
+        ###################Frame1#############################
+
         self.frame1 = tk.Frame(self.master,bg="lightgrey",width=180,relief="groove", bd=1)
         self.frame1.pack(expand=True,fill="y",side="left",anchor="w",padx=10,pady=10)
 
@@ -73,9 +75,6 @@ class FramePrincipal(tk.Frame):
         self.boton_buscar = tk.Button(self.frame1,text="Buscar",command=self.buscar)
         self.boton_buscar.pack(padx=5,pady=5, fill="x")
 
-        self.boton_eliminar = tk.Button(self.frame1,text="Eliminar",command=self.eliminar)
-        self.boton_eliminar.pack(padx=5,pady=5, fill="x")
-
         ############Frame2#############
 
         self.frame2 = tk.Frame(self.master,bg="lightgrey",relief="groove", bd=1,width=600)
@@ -94,5 +93,7 @@ class FramePrincipal(tk.Frame):
         #boton para seleccionar elemento
 
         self.btn_treeviewSelect = tk.Button(self.frame2,text="seleccionar",command=self.treeviewSeleccion)
-        self.btn_treeviewSelect.pack(padx=5,pady=5)
+        self.btn_treeviewSelect.pack(padx=5,pady=5,side="right",anchor="n")
+        self.boton_eliminar = tk.Button(self.frame2,text="Eliminar",command=self.eliminar)
+        self.boton_eliminar.pack(padx=5,pady=5,side="right",anchor="n")
 

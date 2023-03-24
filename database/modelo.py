@@ -27,11 +27,19 @@ class Pedidos:
         return rows
     
     def buscar(self,cliente):
+        '''
         if not cliente == "":
             sql = f"select * from pedidos where cliente = '{cliente}'"
             self.cursor.execute(sql)
             rows = self.cursor.fetchall()
-            return rows
+            return rows'''
+        # Crear una consulta SQL para buscar las filas que contienen la cadena de búsqueda
+        consulta = "SELECT * FROM pedidos WHERE cliente LIKE ?"
+
+        # Ejecutar la consulta y obtener los resultados
+        self.cursor.execute(consulta, ('%' + cliente + '%',))
+        resultados = self.cursor.fetchall()
+        return resultados
     
     def eliminarID(self,id):
         sql = f"delete from pedidos where id = {id}"
