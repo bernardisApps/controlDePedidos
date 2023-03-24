@@ -4,13 +4,14 @@ from database.modelo import Pedidos
 from tkinter import messagebox
 
 class FramePrincipal(tk.Frame):
+
     def __init__(self,master=None):
         super().__init__(master)
         self.master = master
         self.pack()
         self.createWidgets()
 
-    def buscar(self):
+    def buscar(self,*args):
         if not self.nombre_variable.get() == "":
             pedidos = Pedidos().buscar(self.nombre_variable.get())
             if pedidos.__len__() > 0:
@@ -18,10 +19,24 @@ class FramePrincipal(tk.Frame):
                 for pedido in pedidos:
                     self.treeview1.insert("","end",text=pedido[0],values=(pedido[1],pedido[2],pedido[3]))
         else:
-            messagebox.showinfo(title="Error", message="Debe llenar el campo de nombre")
+            self.traerTodos()
 
     def eliminar(self):
         pass
+
+    def treeviewSeleccion(self,*args):
+        seleccion = self.treeview1.focus()
+        print(self.treeview1.item(seleccion)['text'])
+        
+    def traerTodos(self):
+        #traer los datos desde la base de datos
+        for i in self.treeview1.get_children():
+            self.treeview1.delete(i)
+
+        pedidos = Pedidos().obtenerTodos()
+
+        for pedido in pedidos:
+            self.treeview1.insert("","end",text=pedido[0],values=(pedido[1],pedido[2],pedido[3]))
 
     def createWidgets(self):
 
@@ -36,6 +51,8 @@ class FramePrincipal(tk.Frame):
         tk.Label(self.frame1, text="Nombre: ").pack(padx=5,pady=5,anchor="w")
 
         self.nombre_entry = tk.Entry(self.frame1,textvariable=self.nombre_variable)
+        self.nombre_entry.bind("<Return>",self.buscar)
+        self.nombre_entry.focus()
         self.nombre_entry.pack(padx=5,pady=5)
 
         tk.Label(self.frame1, text="Apellido: ").pack(padx=5,pady=5,anchor="w")
@@ -71,11 +88,11 @@ class FramePrincipal(tk.Frame):
         self.treeview1.heading("pedido",text="Pedido")
         self.treeview1.column("#0",width=30)
         self.treeview1.pack(padx=5,pady=5)
+        self.traerTodos()
+        
 
-        #traer los datos desde la base de datos
+        #boton para seleccionar elemento
 
-        pedidos = Pedidos().obtenerTodos()
-
-        for pedido in pedidos:
-            self.treeview1.insert("","end",text=pedido[0],values=(pedido[1],pedido[2],pedido[3]))
+        self.btn_treeviewSelect = tk.Button(self.frame2,text="seleccionar",command=self.treeviewSeleccion)
+        self.btn_treeviewSelect.pack(padx=5,pady=5)
 
