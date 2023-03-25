@@ -78,7 +78,7 @@ class Clientes:
         
     def buscarID(self,id):
         if not id == "":
-            sql = f"select * from clientes where nombre = '{id}'"
+            sql = f"select * from clientes where id = '{id}'"
             self.cursor.execute(sql)
             row = self.cursor.fetchone()
             self.conexion.close()
@@ -86,6 +86,14 @@ class Clientes:
         
     def eliminarID(self,id):
         sql = f"delete from clientes where id = {id}"
+        self.cursor.execute(sql)
+        self.conexion.commit()
+        rowafected = self.cursor.rowcount
+        self.conexion.close()
+        return rowafected
+    
+    def actualizarCliente(self,id,nombre,apellido,direccion,celular):
+        sql = f"update clientes set nombre='{nombre}', apellido='{apellido}', direccion = '{direccion}', celular = {celular} where id = {id}"
         self.cursor.execute(sql)
         self.conexion.commit()
         rowafected = self.cursor.rowcount

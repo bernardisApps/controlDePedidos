@@ -2,6 +2,7 @@ import tkinter as tk
 from views.framePrincipal import FramePrincipal
 from views.ingresoCliente import NuevoClienteDialog
 from views.ingresoPedido import NuevoPedidoDialog
+from views.editarClienteDialog import EditarCliente
 from database.modelo import Clientes,Pedidos
 from tkinter import messagebox
 
@@ -20,7 +21,19 @@ def salir():
     root.destroy()
 
 def editar_cliente():
-    print("Editando cliente...")
+    if not framePrincipal.nombre_variable.get() == "":
+        dlg = EditarCliente(root,title="Editar Cliente",cliente=Clientes().buscar(framePrincipal.nombre_variable.get()))
+        if not dlg.resultado == "":
+            guardado = Clientes().actualizarCliente(dlg.resultado["id"],dlg.resultado["nombre"],dlg.resultado["apellido"],dlg.resultado["direccion"],dlg.resultado["celular"])
+            if guardado > 0:
+                messagebox.showinfo(title="Editar Cliente", message="Se han actualizado los datos del cliente")
+                framePrincipal.nombre_variable.set(dlg.resultado['nombre'])
+                framePrincipal.apellido_variable.set(dlg.resultado['apellido'])
+                framePrincipal.direccion_variable.set(dlg.resultado['direccion'])
+                framePrincipal.celular_variable.set(dlg.resultado['celular'])
+
+    else:
+        messagebox.showinfo(title="Error", message="Debe seleccionar primero un cliente")
 
 def editar_pedido():
     print("Editando pedido...")

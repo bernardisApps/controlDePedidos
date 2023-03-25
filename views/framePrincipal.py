@@ -50,6 +50,12 @@ class FramePrincipal(tk.Frame):
         for pedido in pedidos:
             self.treeview1.insert("","end",text=pedido[0],values=(pedido[1],pedido[2],pedido[3]))
 
+    def limpiarEntrys(self,*args):
+        self.nombre_variable.set("")
+        self.apellido_variable.set("")
+        self.direccion_variable.set("")
+        self.celular_variable.set("")
+
     def createWidgets(self):
 
         self.nombre_variable = tk.StringVar()
@@ -66,6 +72,7 @@ class FramePrincipal(tk.Frame):
 
         self.nombre_entry = tk.Entry(self.frame1,textvariable=self.nombre_variable)
         self.nombre_entry.bind("<Return>",self.buscar)
+        self.nombre_entry.bind("<Button-1>",self.limpiarEntrys)
         self.nombre_entry.focus()
         self.nombre_entry.pack(padx=5,pady=5)
 
