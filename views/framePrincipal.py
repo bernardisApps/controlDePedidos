@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from database.modelo import Pedidos
+from database.modelo import Pedidos,Clientes
 from tkinter import messagebox
 
 class FramePrincipal(tk.Frame):
@@ -26,7 +26,12 @@ class FramePrincipal(tk.Frame):
 
     def treeviewSeleccion(self,*args):
         seleccion = self.treeview1.focus()
-        print(self.treeview1.item(seleccion)['text'])
+        nombre = self.treeview1.item(seleccion)['values'][0]
+        cliente = Clientes().buscar(nombre)
+        self.nombre_variable.set(cliente[1])
+        self.apellido_variable.set(cliente[2])
+        self.direccion_variable.set(cliente[3])
+        self.celular_variable.set(cliente[4])
         
     def traerTodos(self):
         #traer los datos desde la base de datos
@@ -72,7 +77,7 @@ class FramePrincipal(tk.Frame):
         self.celular_entry = tk.Entry(self.frame1,textvariable=self.celular_variable)
         self.celular_entry.pack(padx=5,pady=5)
 
-        self.boton_buscar = tk.Button(self.frame1,text="Buscar",command=self.buscar)
+        self.boton_buscar = tk.Button(self.frame1,text="Buscar(enter)",command=self.buscar)
         self.boton_buscar.pack(padx=5,pady=5, fill="x")
 
         ############Frame2#############
@@ -94,6 +99,8 @@ class FramePrincipal(tk.Frame):
 
         self.btn_treeviewSelect = tk.Button(self.frame2,text="seleccionar",command=self.treeviewSeleccion)
         self.btn_treeviewSelect.pack(padx=5,pady=5,side="right",anchor="n")
+
+        #boton eliminar
         self.boton_eliminar = tk.Button(self.frame2,text="Eliminar",command=self.eliminar)
         self.boton_eliminar.pack(padx=5,pady=5,side="right",anchor="n")
 

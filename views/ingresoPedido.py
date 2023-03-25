@@ -10,13 +10,13 @@ class NuevoPedidoDialog(sd.Dialog):
         tk.Label(master, text="Pedido:").grid(row=1)
         tk.Label(master, text="Precio:").grid(row=2)
 
-        self.cliente_combobox = ttk.Combobox(master,values=Clientes().traerNombres())
-        self.pedido_entry = tk.Entry(master)
-        self.precio_entry = tk.Entry(master)
+        self.cliente_combobox = ttk.Combobox(master,values=Clientes().traerNombres(),width=30)
+        self.pedido_entry = tk.Entry(master,width=30)
+        self.precio_entry = tk.Entry(master,width=30)
 
-        self.cliente_combobox.grid(row=0, column=1)
-        self.pedido_entry.grid(row=1, column=1)
-        self.precio_entry.grid(row=2, column=1)
+        self.cliente_combobox.grid(row=0, column=1,padx=5,pady=5)
+        self.pedido_entry.grid(row=1, column=1,padx=5,pady=5)
+        self.precio_entry.grid(row=2, column=1,padx=5,pady=5)
 
         return self.cliente_combobox # Devuelve el primer widget para darle el foco
     

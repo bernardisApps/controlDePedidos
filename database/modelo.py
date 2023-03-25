@@ -62,7 +62,7 @@ class Clientes:
         if not nombre == "":
             sql = f"select * from clientes where nombre = '{nombre}'"
             self.cursor.execute(sql)
-            rows = self.cursor.fetchall()
+            rows = self.cursor.fetchone()
             self.conexion.close()
             return rows
         
