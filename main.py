@@ -1,5 +1,7 @@
 import tkinter as tk
 from views.framePrincipal import FramePrincipal
+from views.ingresoCliente import NuevoClienteDialog
+from database.modelo import Clientes
 
 root = tk.Tk()
 root.title("Gestión de pedidos")
@@ -24,9 +26,16 @@ def editar_pedido():
 def acerca_de():
     print("Acerca de esta aplicación...")
 
+def nuevoCliente():
+    dlg = NuevoClienteDialog(root, title="Nuevo Cliente")
+    print(dlg.resultado)  # Imprime el resultado del diálogo
+    if not dlg.resultado == "":
+        print(Clientes().nuevo(dlg.resultado["nombre"],dlg.resultado["apellido"],dlg.resultado["direccion"],dlg.resultado["celular"]))
+
 # Opción Archivo
 menu_archivo = tk.Menu(menu_principal,tearoff=0)
 menu_principal.add_cascade(label="Archivo", menu=menu_archivo)
+menu_archivo.add_command(label="Nuevo Cliente", command=nuevoCliente)
 menu_archivo.add_command(label="Guardar", command=guardar)
 menu_archivo.add_separator()
 menu_archivo.add_command(label="Salir", command=salir)

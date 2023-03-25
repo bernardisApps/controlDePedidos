@@ -27,12 +27,6 @@ class Pedidos:
         return rows
     
     def buscar(self,cliente):
-        '''
-        if not cliente == "":
-            sql = f"select * from pedidos where cliente = '{cliente}'"
-            self.cursor.execute(sql)
-            rows = self.cursor.fetchall()
-            return rows'''
         # Crear una consulta SQL para buscar las filas que contienen la cadena de búsqueda
         consulta = "SELECT * FROM pedidos WHERE cliente LIKE ?"
 
