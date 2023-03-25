@@ -27,10 +27,7 @@ def editar_cliente():
             guardado = Clientes().actualizarCliente(dlg.resultado["id"],dlg.resultado["nombre"],dlg.resultado["apellido"],dlg.resultado["direccion"],dlg.resultado["celular"])
             if guardado > 0:
                 messagebox.showinfo(title="Editar Cliente", message="Se han actualizado los datos del cliente")
-                framePrincipal.nombre_variable.set(dlg.resultado['nombre'])
-                framePrincipal.apellido_variable.set(dlg.resultado['apellido'])
-                framePrincipal.direccion_variable.set(dlg.resultado['direccion'])
-                framePrincipal.celular_variable.set(dlg.resultado['celular'])
+                framePrincipal.actualizarVariables(dlg.resultado)
 
     else:
         messagebox.showinfo(title="Error", message="Debe seleccionar primero un cliente")

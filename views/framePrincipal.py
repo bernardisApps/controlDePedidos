@@ -56,6 +56,12 @@ class FramePrincipal(tk.Frame):
         self.direccion_variable.set("")
         self.celular_variable.set("")
 
+    def actualizarVariables(self,variables):
+        self.nombre_variable.set(variables['nombre'])
+        self.apellido_variable.set(variables['apellido'])
+        self.direccion_variable.set(variables['direccion'])
+        self.celular_variable.set(variables['celular'])
+
     def createWidgets(self):
 
         self.nombre_variable = tk.StringVar()
