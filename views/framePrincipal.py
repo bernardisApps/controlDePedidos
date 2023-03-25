@@ -32,13 +32,14 @@ class FramePrincipal(tk.Frame):
 
     def treeviewSeleccion(self,*args):
         seleccion = self.treeview1.focus()
-        nombre = self.treeview1.item(seleccion)['values'][0]
-        cliente = Clientes().buscar(nombre)
-        self.nombre_variable.set(cliente[1])
-        self.apellido_variable.set(cliente[2])
-        self.direccion_variable.set(cliente[3])
-        self.celular_variable.set(cliente[4])
-        
+        if seleccion:
+            nombre = self.treeview1.item(seleccion)['values'][0]
+            cliente = Clientes().buscar(nombre)
+            self.nombre_variable.set(cliente[1])
+            self.apellido_variable.set(cliente[2])
+            self.direccion_variable.set(cliente[3])
+            self.celular_variable.set(cliente[4])
+            
     def traerTodos(self):
         #traer los datos desde la base de datos
         for i in self.treeview1.get_children():
