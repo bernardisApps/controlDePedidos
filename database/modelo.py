@@ -42,6 +42,15 @@ class Pedidos:
         rowafected = self.cursor.rowcount
         self.conexion.close()
         return rowafected
+    
+    def buscarID(self,id):
+        # Crear una consulta SQL para buscar las filas que contienen la cadena de búsqueda
+        consulta = f"SELECT * FROM pedidos WHERE id = {id}"
+
+        # Ejecutar la consulta y obtener los resultados
+        self.cursor.execute(consulta)
+        resultados = self.cursor.fetchone()
+        return resultados
         
 class Clientes:
 

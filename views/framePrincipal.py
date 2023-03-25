@@ -5,6 +5,8 @@ from tkinter import messagebox
 
 class FramePrincipal(tk.Frame):
 
+    idPedidoSeleccion = None
+
     def __init__(self,master=None):
         super().__init__(master)
         self.master = master
@@ -39,6 +41,7 @@ class FramePrincipal(tk.Frame):
             self.apellido_variable.set(cliente[2])
             self.direccion_variable.set(cliente[3])
             self.celular_variable.set(cliente[4])
+            self.idPedidoSeleccion = self.treeview1.item(seleccion)['text']
             
     def refrescarTreeview(self):
         #traer los datos desde la base de datos

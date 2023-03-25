@@ -3,6 +3,7 @@ from views.framePrincipal import FramePrincipal
 from views.ingresoCliente import NuevoClienteDialog
 from views.ingresoPedido import NuevoPedidoDialog
 from views.editarClienteDialog import EditarCliente
+from views.editarPedido import EditarPedido
 from database.modelo import Clientes,Pedidos
 from tkinter import messagebox
 
@@ -33,8 +34,11 @@ def editar_cliente():
         messagebox.showinfo(title="Error", message="Debe seleccionar primero un cliente")
 
 def editar_pedido():
-    print("Editando pedido...")
-
+    if not framePrincipal.idPedidoSeleccion == None:
+        dlg = EditarPedido(root, title="Editar Pedido",pedido=Pedidos().buscarID(framePrincipal.idPedidoSeleccion))
+        if not dlg.resultado == "":
+            print(dlg.resultado)
+            
 def acerca_de():
     print("Acerca de esta aplicación")
 
