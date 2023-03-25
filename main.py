@@ -26,7 +26,7 @@ def editar_pedido():
     print("Editando pedido...")
 
 def acerca_de():
-    print("Acerca de esta aplicación...")
+    print("Acerca de esta aplicación")
 
 def nuevoCliente():
     dlg = NuevoClienteDialog(root, title="Nuevo Cliente")
