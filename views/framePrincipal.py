@@ -22,7 +22,13 @@ class FramePrincipal(tk.Frame):
             self.traerTodos()
 
     def eliminar(self):
-        pass
+        seleccion = self.treeview1.focus()
+        id = self.treeview1.item(seleccion)['text']
+        if not id=="":
+            row = Pedidos().eliminarID(id)
+            if row > 0 :
+                messagebox.showinfo(title="Eliminando Pedido", message="Se ha eliminado el pedido de la base de datos")
+                self.traerTodos()
 
     def treeviewSeleccion(self,*args):
         seleccion = self.treeview1.focus()
