@@ -19,7 +19,7 @@ class FramePrincipal(tk.Frame):
                 for pedido in pedidos:
                     self.treeview1.insert("","end",text=pedido[0],values=(pedido[1],pedido[2],pedido[3]))
         else:
-            self.traerTodos()
+            self.refrescarTreeview()
 
     def eliminar(self):
         seleccion = self.treeview1.focus()
@@ -28,7 +28,7 @@ class FramePrincipal(tk.Frame):
             row = Pedidos().eliminarID(id)
             if row > 0 :
                 messagebox.showinfo(title="Eliminando Pedido", message="Se ha eliminado el pedido de la base de datos")
-                self.traerTodos()
+                self.refrescarTreeview()
 
     def treeviewSeleccion(self,*args):
         seleccion = self.treeview1.focus()
@@ -40,7 +40,7 @@ class FramePrincipal(tk.Frame):
             self.direccion_variable.set(cliente[3])
             self.celular_variable.set(cliente[4])
             
-    def traerTodos(self):
+    def refrescarTreeview(self):
         #traer los datos desde la base de datos
         for i in self.treeview1.get_children():
             self.treeview1.delete(i)
@@ -60,7 +60,7 @@ class FramePrincipal(tk.Frame):
         ###################Frame1#############################
 
         self.frame1 = tk.Frame(self.master,bg="lightgrey",width=180,relief="groove", bd=1)
-        self.frame1.pack(expand=True,fill="y",side="left",anchor="w",padx=10,pady=10)
+        self.frame1.pack(side="left",anchor="w",padx=5,pady=5,fill="y")
 
         tk.Label(self.frame1, text="Nombre: ").pack(padx=5,pady=5,anchor="w")
 
@@ -89,8 +89,8 @@ class FramePrincipal(tk.Frame):
 
         ############Frame2#############
 
-        self.frame2 = tk.Frame(self.master,bg="lightgrey",relief="groove", bd=1,width=600)
-        self.frame2.pack(fill="both", padx=[0,10], pady=10, expand=True)
+        self.frame2 = tk.Frame(self.master,bg="lightgrey",relief="groove", bd=1)
+        self.frame2.pack(expand=True,fill="both",side="left",anchor="w",padx=5,pady=5)
 
         self.treeview1 = ttk.Treeview(self.frame2,columns=("cliente","precio","pedido"))
         self.treeview1.heading("#0",text="ID")
@@ -98,9 +98,11 @@ class FramePrincipal(tk.Frame):
         self.treeview1.heading("precio",text="Precio")
         self.treeview1.heading("pedido",text="Pedido")
         self.treeview1.column("#0",width=30)
-        self.treeview1.pack(padx=5,pady=5)
-        self.traerTodos()
-        
+        self.treeview1.column("cliente",width=100)
+        self.treeview1.column("precio",width=100)
+        self.treeview1.column("pedido",width=200)
+        self.treeview1.pack(padx=5,pady=5,fill="x")
+        self.refrescarTreeview()
 
         #boton para seleccionar elemento
 

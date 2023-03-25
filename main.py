@@ -41,7 +41,7 @@ def nuevoPedido():
         guardado = Pedidos().guardar(dlg.resultado["cliente"],dlg.resultado["precio"],dlg.resultado["pedido"])
         if guardado > 0:
             messagebox.showinfo(title="Nuevo Pedido", message="El nuevo pedido ha sido guardado en la base de datos")
-            framePrincipal.traerTodos()
+            framePrincipal.refrescarTreeview()
 
 # Opción Archivo
 menu_archivo = tk.Menu(menu_principal,tearoff=0)
