@@ -1,7 +1,9 @@
 import tkinter as tk
 from views.framePrincipal import FramePrincipal
 from views.ingresoCliente import NuevoClienteDialog
-from database.modelo import Clientes
+from views.ingresoPedido import NuevoPedidoDialog
+from database.modelo import Clientes,Pedidos
+from tkinter import messagebox
 
 root = tk.Tk()
 root.title("Gestión de pedidos")
@@ -28,14 +30,24 @@ def acerca_de():
 
 def nuevoCliente():
     dlg = NuevoClienteDialog(root, title="Nuevo Cliente")
-    print(dlg.resultado)  # Imprime el resultado del diálogo
     if not dlg.resultado == "":
-        print(Clientes().nuevo(dlg.resultado["nombre"],dlg.resultado["apellido"],dlg.resultado["direccion"],dlg.resultado["celular"]))
+        guardado = Clientes().nuevo(dlg.resultado["nombre"],dlg.resultado["apellido"],dlg.resultado["direccion"],dlg.resultado["celular"])
+        if guardado > 0:
+            messagebox.showinfo(title="Nuevo Cliente", message="Cliente agregado con éxito a la base de datos")
+
+def nuevoPedido():
+    dlg = NuevoPedidoDialog(root, title="Nuevo Pedido")
+    if not dlg.resultado == "":
+        guardado = Pedidos().guardar(dlg.resultado["cliente"],dlg.resultado["precio"],dlg.resultado["pedido"])
+        if guardado > 0:
+            messagebox.showinfo(title="Nuevo Pedido", message="El nuevo pedido ha sido guardado en la base de datos")
+            framePrincipal.traerTodos()
 
 # Opción Archivo
 menu_archivo = tk.Menu(menu_principal,tearoff=0)
 menu_principal.add_cascade(label="Archivo", menu=menu_archivo)
 menu_archivo.add_command(label="Nuevo Cliente", command=nuevoCliente)
+menu_archivo.add_command(label="Nuevo Pedido", command=nuevoPedido)
 menu_archivo.add_command(label="Guardar", command=guardar)
 menu_archivo.add_separator()
 menu_archivo.add_command(label="Salir", command=salir)

@@ -66,6 +66,16 @@ class Clientes:
             self.conexion.close()
             return rows
         
+    def traerNombres(self):
+        sql = f"select * from clientes"
+        self.cursor.execute(sql)
+        rows = self.cursor.fetchall()
+        self.conexion.close()
+        resultado = []
+        for row in rows:
+            resultado.append(row[1])
+        return resultado
+        
     def buscarID(self,id):
         if not id == "":
             sql = f"select * from clientes where nombre = '{id}'"
