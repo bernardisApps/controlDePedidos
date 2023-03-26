@@ -25,15 +25,19 @@ class NuevoClienteDialog(sd.Dialog):
     
     def apply(self):
         if not self.nombre_entry.get() == "" and not self.apellido_entry.get() == "" and not self.direccion_entry.get() == "" and not self.celular_entry.get() == "": 
-            self.resultado = {
-                'nombre': self.nombre_entry.get(),
-                'apellido': self.apellido_entry.get(),
-                'direccion': self.direccion_entry.get(),
-                'celular': self.celular_entry.get()
-            }
-            rows = Clientes().nuevo(self.resultado['nombre'],self.resultado['apellido'],self.resultado['direccion'],self.resultado['celular'])
-            if rows > 0:
-                messagebox.showinfo(title="Nuevo Cliente",message="Se agregó el nuevo cliente a la base de datos")
+            if self.celular_entry.get().__len__() < 10 or self.nombre_entry.get().__len__() < 2 or self.apellido_entry.get().__len__() < 5:
+                messagebox.showerror(title="Nuevo Cliente", message="Los datos ingresados no son correctos")
+                super().cancel()
+            else:
+                self.resultado = {
+                    'nombre': self.nombre_entry.get(),
+                    'apellido': self.apellido_entry.get(),
+                    'direccion': self.direccion_entry.get(),
+                    'celular': self.celular_entry.get()
+                }
+                rows = Clientes().nuevo(self.resultado['nombre'],self.resultado['apellido'],self.resultado['direccion'],self.resultado['celular'])
+                if rows > 0:
+                    messagebox.showinfo(title="Nuevo Cliente",message="Se agregó el nuevo cliente a la base de datos")
         else:
             messagebox.showerror(title="Nuevo Cliente", message="Debe completar todos los campos")
             super().cancel()
