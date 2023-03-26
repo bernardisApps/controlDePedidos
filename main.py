@@ -5,6 +5,7 @@ from views.ingresoPedido import NuevoPedidoDialog
 from views.editarClienteDialog import EditarCliente
 from views.editarPedido import EditarPedido
 from database.modelo import Clientes,Pedidos
+from database.guardar import Guardar
 from tkinter import messagebox
 
 root = tk.Tk()
@@ -15,8 +16,8 @@ menu_principal = tk.Menu(root,tearoff=0)
 root.config(menu=menu_principal)
 framePrincipal = FramePrincipal(master=root)
 
-def guardar():
-    print("Guardando archivo...")
+def guardar(*args):
+    guardado = Guardar(framePrincipal.treeview1)
 
 def salir():
     root.destroy()
@@ -47,14 +48,14 @@ def editar_pedido():
 def acerca_de():
     print("Acerca de esta aplicación")
 
-def nuevoCliente():
+def nuevoCliente(*args):
     dlg = NuevoClienteDialog(root, title="Nuevo Cliente")
     if not dlg.resultado == "":
         guardado = Clientes().nuevo(dlg.resultado["nombre"],dlg.resultado["apellido"],dlg.resultado["direccion"],dlg.resultado["celular"])
         if guardado > 0:
             messagebox.showinfo(title="Nuevo Cliente", message="Cliente agregado con éxito a la base de datos")
 
-def nuevoPedido():
+def nuevoPedido(*args):
     dlg = NuevoPedidoDialog(root, title="Nuevo Pedido")
     if not dlg.resultado == "":
         guardado = Pedidos().guardar(dlg.resultado["cliente"],dlg.resultado["precio"],dlg.resultado["pedido"])
@@ -82,5 +83,9 @@ menu_ayuda = tk.Menu(menu_principal,tearoff=0)
 menu_principal.add_cascade(label="Ayuda",menu=menu_ayuda)
 menu_ayuda.add_command(label="Acerca de...", command=acerca_de)
 
+
+root.bind("<Control-n>",nuevoCliente)
+root.bind("<Control-p>",nuevoPedido)
+root.bind("<Control-s>",guardar)
 
 root.mainloop()
