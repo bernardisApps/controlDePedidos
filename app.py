@@ -8,6 +8,7 @@ from database.modelo import Clientes,Pedidos
 from database.guardar import Guardar
 from tkinter import messagebox
 from views.eliminarClienteDialog import EliminarCliente
+from views.acercade import AcercaDe
 
 class App(tk.Tk):
 
@@ -72,7 +73,7 @@ class App(tk.Tk):
             messagebox.showerror(title="Error", message="Debe seleccionar un pedido")
                 
     def acerca_de(self):
-        print("Acerca de esta aplicación")
+        AcercaDe(self,title="Acerca de")
 
     def nuevoCliente(self,*args):
         dlg = NuevoClienteDialog(self, title="Nuevo Cliente")
