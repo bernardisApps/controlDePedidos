@@ -20,7 +20,7 @@ class FramePrincipal(tk.Frame):
             if pedidos.__len__() > 0:
                 self.treeview1.delete(*self.treeview1.get_children())
                 for pedido in pedidos:
-                    self.treeview1.insert("","end",text=pedido[0],values=(pedido[1],pedido[2],pedido[3]))
+                    self.treeview1.insert("","end",text=pedido[0],values=(str(pedido[4])+'-'+str(pedido[1]),pedido[2],pedido[3]))
         else:
             self.refrescarTreeview()
 
