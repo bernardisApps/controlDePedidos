@@ -51,6 +51,14 @@ class Pedidos:
         self.cursor.execute(consulta)
         resultados = self.cursor.fetchone()
         return resultados
+    
+    def actualizarPedido(self,id,cliente,pedido,precio):
+        sql = f"update pedidos set cliente='{cliente}', pedido='{pedido}', precio = {precio} where id = {id}"
+        self.cursor.execute(sql)
+        self.conexion.commit()
+        rowafected = self.cursor.rowcount
+        self.conexion.close()
+        return rowafected
         
 class Clientes:
 

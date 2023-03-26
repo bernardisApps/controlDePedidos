@@ -37,7 +37,12 @@ def editar_pedido():
     if not framePrincipal.idPedidoSeleccion == None:
         dlg = EditarPedido(root, title="Editar Pedido",pedido=Pedidos().buscarID(framePrincipal.idPedidoSeleccion))
         if not dlg.resultado == "":
-            print(dlg.resultado)
+            guardado =  Pedidos().actualizarPedido(dlg.resultado['id'],dlg.resultado['cliente'],dlg.resultado['pedido'],dlg.resultado['precio'])
+            if guardado > 0:
+                messagebox.showinfo(title="Editar Pedido", message="Se ha actualizado el pedido")
+                framePrincipal.refrescarTreeview()
+    else:
+        messagebox.showerror(title="Error", message="Debe seleccionar un pedido")
             
 def acerca_de():
     print("Acerca de esta aplicación")
