@@ -6,6 +6,7 @@ from tkinter import messagebox
 class FramePrincipal(tk.Frame):
 
     idPedidoSeleccion = None
+    idClienteSeleccion = None
 
     def __init__(self,master=None):
         super().__init__(master)
@@ -27,21 +28,24 @@ class FramePrincipal(tk.Frame):
         seleccion = self.treeview1.focus()
         id = self.treeview1.item(seleccion)['text']
         if not id=="":
-            row = Pedidos().eliminarID(id)
-            if row > 0 :
-                messagebox.showinfo(title="Eliminando Pedido", message="Se ha eliminado el pedido de la base de datos")
-                self.refrescarTreeview()
+            respuesta = messagebox.askokcancel(title="Eliminar Pedido", message="Seguro quiere eliminar el pedido?")
+            if respuesta:
+                row = Pedidos().eliminarID(id)
+                if row > 0 :
+                    messagebox.showinfo(title="Eliminando Pedido", message="Se ha eliminado el pedido de la base de datos")
+                    self.refrescarTreeview()
 
     def treeviewSeleccion(self,*args):
         seleccion = self.treeview1.focus()
         if seleccion:
-            nombre = self.treeview1.item(seleccion)['values'][0]
-            cliente = Clientes().buscar(nombre)
+            id = int(self.treeview1.item(seleccion)['values'][0].split("-")[0])
+            cliente = Clientes().buscarID(id)
             self.nombre_variable.set(cliente[1])
             self.apellido_variable.set(cliente[2])
             self.direccion_variable.set(cliente[3])
             self.celular_variable.set(cliente[4])
             self.idPedidoSeleccion = self.treeview1.item(seleccion)['text']
+            self.idClienteSeleccion = id
             
     def refrescarTreeview(self):
         #traer los datos desde la base de datos
@@ -51,7 +55,7 @@ class FramePrincipal(tk.Frame):
         pedidos = Pedidos().obtenerTodos()
 
         for pedido in pedidos:
-            self.treeview1.insert("","end",text=pedido[0],values=(pedido[1],pedido[2],pedido[3]))
+            self.treeview1.insert("","end",text=pedido[0],values=(str(pedido[4])+'-'+str(pedido[1]),pedido[2],pedido[3]))
 
     def limpiarEntrys(self,*args):
         self.nombre_variable.set("")

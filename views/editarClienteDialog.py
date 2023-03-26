@@ -1,15 +1,17 @@
 import tkinter as tk
 import tkinter.simpledialog as sd
+from tkinter import messagebox
+from database.modelo import Clientes
 
 class EditarCliente(sd.Dialog):
 
-    resultado = ""
-
-    def __init__(self, parent, title, cliente):
-        self.cliente = cliente
-        sd.Dialog.__init__(self,parent,title)
+    def __init__(self, parent,title,id):
+        self.id = id
+        super().__init__(parent, title)
 
     def body(self,parent):
+        
+        self.cliente = Clientes().buscarID(self.id)
         
         self.nombre_variable = tk.StringVar()
         self.nombre_variable.set(self.cliente[1])
@@ -40,13 +42,17 @@ class EditarCliente(sd.Dialog):
     def apply(self):
         if not self.nombre_variable == "" and not self.apellido_variable == "" and not self.direccion_variable == "" and not self.celular_variable == "": 
             self.resultado = {
-                'id' : self.cliente[0],
-                'nombre': self.nombre_entry.get(),
-                'apellido': self.apellido_entry.get(),
-                'direccion': self.direccion_entry.get(),
-                'celular': self.celular_entry.get()
+                "nombre" : self.nombre_variable.get(),
+                "apellido" : self.apellido_variable.get(),
+                "direccion" : self.direccion_variable.get(),
+                "celular" : self.celular_variable.get()
             }
+            rows = Clientes().actualizarCliente(self.id,self.nombre_variable.get(),self.apellido_variable.get(),self.direccion_variable.get(),self.celular_variable.get())
+            if rows > 0:
+                messagebox.showinfo(title="Editar Cliente", message=f"Cliente de id:{self.id} se ha editado correctamente")
+                return self.resultado
         else:
+            messagebox.showerror(title="Editar Cliente", message="Debe completar todos los campos")
             super().cancel()
     
     def cancel(self, event=None):

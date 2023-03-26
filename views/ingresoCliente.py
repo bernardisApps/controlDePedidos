@@ -1,8 +1,10 @@
 import tkinter as tk
 import tkinter.simpledialog as sd
+from database.modelo import Clientes
+from tkinter import messagebox
 
 class NuevoClienteDialog(sd.Dialog):
-    resultado = ""
+    
     def body(self, master):
         tk.Label(master, text="Nombre:").grid(row=0)
         tk.Label(master, text="Apellido:").grid(row=1)
@@ -29,7 +31,11 @@ class NuevoClienteDialog(sd.Dialog):
                 'direccion': self.direccion_entry.get(),
                 'celular': self.celular_entry.get()
             }
+            rows = Clientes().nuevo(self.resultado['nombre'],self.resultado['apellido'],self.resultado['direccion'],self.resultado['celular'])
+            if rows > 0:
+                messagebox.showinfo(title="Nuevo Cliente",message="Se agregó el nuevo cliente a la base de datos")
         else:
+            messagebox.showerror(title="Nuevo Cliente", message="Debe completar todos los campos")
             super().cancel()
     
     def cancel(self, event=None):

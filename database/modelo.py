@@ -6,12 +6,13 @@ class Pedidos:
         self.conexion = sqlite3.connect("database/pedidos.db")
         self.cursor = self.conexion.cursor()
 
-    def guardar(self,cliente,precio,pedido):
-        if not cliente == "" and not precio == "" and not pedido == "":
+    def guardar(self,cliente,precio,pedido,id_cliente):
+        if not cliente == "" and not precio == "" and not pedido == "" and not id_cliente == "":
             self.cliente = cliente
             self.precio = precio
             self.pedido = pedido
-            sql = f"insert into pedidos (cliente , precio, pedido) values ('{self.cliente}', {self.precio}, '{self.pedido}')"
+            self.id_cliente = id_cliente
+            sql = f"insert into pedidos (cliente , precio, pedido, id_cliente) values ('{self.cliente}', {self.precio}, '{self.pedido}',{self.id_cliente})"
             self.cursor.execute(sql)
             self.conexion.commit()
             rowcounts = self.cursor.rowcount
@@ -66,6 +67,13 @@ class Clientes:
         self.conexion = sqlite3.connect("database/pedidos.db")
         self.cursor = self.conexion.cursor()
 
+    def traerTodos(self):
+        sql = f"select * from clientes"
+        self.cursor.execute(sql)
+        rows = self.cursor.fetchall()
+        self.conexion.close()
+        return rows
+
     def nuevo(self, nombre, apellido, direccion, celular):
         if not nombre == "" and not apellido == "" and not direccion == "" and not celular == 0:
             sql = f"insert into clientes (nombre, apellido, direccion, celular) values ('{nombre}', '{apellido}', '{direccion}', {celular})" 
@@ -92,6 +100,16 @@ class Clientes:
         for row in rows:
             resultado.append(row[1])
         return resultado
+    
+    def traerNombresApellidos(self):
+        sql = f"select * from clientes"
+        self.cursor.execute(sql)
+        rows = self.cursor.fetchall()
+        self.conexion.close()
+        resultado = []
+        for row in rows:
+            resultado.append(row[1]+" "+row[2])
+        return resultado
         
     def buscarID(self,id):
         if not id == "":
@@ -103,6 +121,14 @@ class Clientes:
         
     def eliminarID(self,id):
         sql = f"delete from clientes where id = {id}"
+        self.cursor.execute(sql)
+        self.conexion.commit()
+        rowafected = self.cursor.rowcount
+        self.conexion.close()
+        return rowafected
+    
+    def eliminarNombreApellido(self,nombre,apellido):
+        sql = f"delete from clientes where nombre='{nombre}' and apellido = '{apellido}'"
         self.cursor.execute(sql)
         self.conexion.commit()
         rowafected = self.cursor.rowcount

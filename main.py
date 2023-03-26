@@ -7,6 +7,7 @@ from views.editarPedido import EditarPedido
 from database.modelo import Clientes,Pedidos
 from database.guardar import Guardar
 from tkinter import messagebox
+from views.eliminarClienteDialog import EliminarCliente
 
 root = tk.Tk()
 root.title("Gestión de pedidos")
@@ -23,14 +24,9 @@ def salir():
     root.destroy()
 
 def editar_cliente():
-    if not framePrincipal.nombre_variable.get() == "":
-        dlg = EditarCliente(root,title="Editar Cliente",cliente=Clientes().buscar(framePrincipal.nombre_variable.get()))
-        if not dlg.resultado == "":
-            guardado = Clientes().actualizarCliente(dlg.resultado["id"],dlg.resultado["nombre"],dlg.resultado["apellido"],dlg.resultado["direccion"],dlg.resultado["celular"])
-            if guardado > 0:
-                messagebox.showinfo(title="Editar Cliente", message="Se han actualizado los datos del cliente")
-                framePrincipal.actualizarVariables(dlg.resultado)
-
+    if not framePrincipal.idClienteSeleccion == "":
+        dlg = EditarCliente(root,title="Editar Cliente",id=framePrincipal.idClienteSeleccion)
+        framePrincipal.actualizarVariables(dlg.resultado)
     else:
         messagebox.showinfo(title="Error", message="Debe seleccionar primero un cliente")
 
@@ -50,18 +46,13 @@ def acerca_de():
 
 def nuevoCliente(*args):
     dlg = NuevoClienteDialog(root, title="Nuevo Cliente")
-    if not dlg.resultado == "":
-        guardado = Clientes().nuevo(dlg.resultado["nombre"],dlg.resultado["apellido"],dlg.resultado["direccion"],dlg.resultado["celular"])
-        if guardado > 0:
-            messagebox.showinfo(title="Nuevo Cliente", message="Cliente agregado con éxito a la base de datos")
 
 def nuevoPedido(*args):
     dlg = NuevoPedidoDialog(root, title="Nuevo Pedido")
-    if not dlg.resultado == "":
-        guardado = Pedidos().guardar(dlg.resultado["cliente"],dlg.resultado["precio"],dlg.resultado["pedido"])
-        if guardado > 0:
-            messagebox.showinfo(title="Nuevo Pedido", message="El nuevo pedido ha sido guardado en la base de datos")
-            framePrincipal.refrescarTreeview()
+    framePrincipal.refrescarTreeview()
+
+def eliminarCliente():
+    EliminarCliente(root,title="Eliminar Cliente")
 
 # Opción Archivo
 menu_archivo = tk.Menu(menu_principal,tearoff=0)
@@ -77,6 +68,7 @@ menu_editar = tk.Menu(menu_principal,tearoff=0)
 menu_principal.add_cascade(label="Editar", menu=menu_editar)
 menu_editar.add_command(label="Editar Cliente", command=editar_cliente)
 menu_editar.add_command(label="Editar Pedido", command=editar_pedido)
+menu_editar.add_command(label="Eliminar Cliente", command=eliminarCliente)
 
 # Opción Ayuda
 menu_ayuda = tk.Menu(menu_principal,tearoff=0)
