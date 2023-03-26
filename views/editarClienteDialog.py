@@ -5,6 +5,8 @@ from database.modelo import Clientes
 
 class EditarCliente(sd.Dialog):
 
+    resultado = None
+
     def __init__(self, parent,title,id):
         self.id = id
         super().__init__(parent, title)

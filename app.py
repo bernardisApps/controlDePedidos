@@ -47,7 +47,7 @@ class App(tk.Tk):
         menu_ayuda.add_command(label="Acerca de...", command=self.acerca_de)
 
     def guardar(self,*args):
-        guardado = Guardar(self.framePrincipal.treeview1)
+        Guardar(self.framePrincipal.treeview1)
 
     def salir(self):
         self.destroy()
@@ -55,14 +55,15 @@ class App(tk.Tk):
     def editar_cliente(self):
         if not self.framePrincipal.idClienteSeleccion == None:
             dlg = EditarCliente(self,title="Editar Cliente",id=self.framePrincipal.idClienteSeleccion)
-            self.framePrincipal.actualizarVariables(dlg.resultado)
+            if dlg.resultado:
+                self.framePrincipal.actualizarVariables(dlg.resultado)
         else:
             messagebox.showinfo(title="Error", message="Debe seleccionar primero un cliente")
 
     def editar_pedido(self):
         if not self.framePrincipal.idPedidoSeleccion == None:
             dlg = EditarPedido(self, title="Editar Pedido",pedido=Pedidos().buscarID(self.framePrincipal.idPedidoSeleccion))
-            if not dlg.resultado == "":
+            if dlg.resultado:
                 guardado =  Pedidos().actualizarPedido(dlg.resultado['id'],dlg.resultado['cliente'],dlg.resultado['pedido'],dlg.resultado['precio'])
                 if guardado > 0:
                     messagebox.showinfo(title="Editar Pedido", message="Se ha actualizado el pedido")

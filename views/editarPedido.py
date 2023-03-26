@@ -3,7 +3,7 @@ import tkinter.simpledialog as sd
 
 class EditarPedido(sd.Dialog):
 
-    resultado = ""
+    resultado = None
 
     def __init__(self, parent, title, pedido):
         self.pedido = pedido
