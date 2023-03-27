@@ -36,9 +36,11 @@ class EditarConfiguraciones(sd.Dialog):
             }
             if Configuraciones().guardarObjeto(obj):
                 messagebox.showinfo(title="Guardar configuraciones",message="Se han guardado las configuraciones")
+                return True
             else:
                 messagebox.showerror(title="Guardar configuraciones",message="No se han podido guardar las configuraciones")
-        super().cancel()
+                return False
     
     def cancel(self, event=None):
         super().cancel()
+        return False

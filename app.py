@@ -103,4 +103,7 @@ class App(tk.Tk):
         EliminarCliente(self,title="Eliminar Cliente")
     
     def editar_configuraciones(self):
-        EditarConfiguraciones(self,title="Editar configuraciones")
+        resultado = EditarConfiguraciones(self,title="Editar configuraciones")
+        if resultado:
+            self.framePrincipal.actualizarConfiguraciones()
+            print("actualizar config")

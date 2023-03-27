@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from database.modelo import Pedidos,Clientes
+from database.modelo import Pedidos,Clientes,Configuraciones
 from tkinter import messagebox
 
 class FramePrincipal(tk.Frame):
@@ -69,6 +69,10 @@ class FramePrincipal(tk.Frame):
         self.direccion_variable.set(variables['direccion'])
         self.celular_variable.set(variables['celular'])
 
+    def actualizarConfiguraciones(self):
+        self.empresa.set(Configuraciones().recuperarObjeto()['empresa'])
+        self.empleado.set(Configuraciones().recuperarObjeto()['empleado'])
+
     def createWidgets(self):
 
         self.nombre_variable = tk.StringVar()
@@ -127,9 +131,25 @@ class FramePrincipal(tk.Frame):
         #boton para seleccionar elemento
 
         self.btn_treeviewSelect = tk.Button(self.frame2,text="seleccionar",command=self.treeviewSeleccion)
-        self.btn_treeviewSelect.pack(padx=5,pady=5,side="right",anchor="n")
+        self.btn_treeviewSelect.pack(padx=5,pady=5,side="left",anchor="nw")
 
         #boton eliminar
         self.boton_eliminar = tk.Button(self.frame2,text="Eliminar",command=self.eliminar)
-        self.boton_eliminar.pack(padx=5,pady=5,side="right",anchor="n")
+        self.boton_eliminar.pack(padx=5,pady=5,side="left",anchor="nw")
 
+        #frame 3
+        self.empresa = tk.StringVar()
+        self.empleado = tk.StringVar()
+
+        self.actualizarConfiguraciones()
+
+        self.frame3 = tk.Frame(self.frame2,relief="solid",bd=1)
+        self.frame3.pack(padx=5,pady=5,side="bottom",anchor="e")
+
+        tk.Label(self.frame3,text="Empresa: ").grid(row=0,column=0,padx=5,pady=5)
+        
+        tk.Label(self.frame3,textvariable=self.empresa,font="UbuntuMono 20 bold", fg="red").grid(row=0,column=1,padx=5,pady=5)
+
+        tk.Label(self.frame3,text="Empleado: ").grid(row=1,column=0,padx=5,pady=5)
+        
+        tk.Label(self.frame3,textvariable=self.empleado,font="Ubuntu 16").grid(row=1,column=1,padx=5,pady=5)
