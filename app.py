@@ -9,6 +9,8 @@ from database.guardar import Guardar
 from tkinter import messagebox
 from views.eliminarClienteDialog import EliminarCliente
 from views.acercade import AcercaDe
+import os
+from views.configuraciones import EditarConfiguraciones
 
 class App(tk.Tk):
 
@@ -22,7 +24,17 @@ class App(tk.Tk):
         self.bind("<Control-n>",self.nuevoCliente)
         self.bind("<Control-p>",self.nuevoPedido)
         self.bind("<Control-s>",self.guardar)
+        self.archivoDeConfiguracion()
         self.createWidgets()
+
+    def archivoDeConfiguracion(self):
+        nombreArchivo = "configuraciones.bin"
+        if os.path.exists(nombreArchivo):
+            print(f"El archivo '{nombreArchivo}' ya existe.")
+        else:
+            # Crear el archivo
+            with open(nombreArchivo, "wb") as archivo:
+                print(f"Se ha creado el archivo '{nombreArchivo}'.")
 
     def createWidgets(self):
         self.framePrincipal = FramePrincipal(self)
@@ -46,6 +58,11 @@ class App(tk.Tk):
         menu_ayuda = tk.Menu(self.menu_principal,tearoff=0)
         self.menu_principal.add_cascade(label="Ayuda",menu=menu_ayuda)
         menu_ayuda.add_command(label="Acerca de...", command=self.acerca_de)
+
+        # Opción empresa
+        menu_empresa = tk.Menu(self.menu_principal,tearoff=0)
+        self.menu_principal.add_cascade(label="Empresa",menu=menu_empresa)
+        menu_empresa.add_command(label="Configuraciones",command=self.editar_configuraciones)
 
     def guardar(self,*args):
         Guardar(self.framePrincipal.treeview1)
@@ -84,3 +101,6 @@ class App(tk.Tk):
 
     def eliminarCliente(self):
         EliminarCliente(self,title="Eliminar Cliente")
+    
+    def editar_configuraciones(self):
+        EditarConfiguraciones(self,title="Editar configuraciones")

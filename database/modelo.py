@@ -1,4 +1,5 @@
 import sqlite3
+import pickle
 
 class Pedidos:
 
@@ -142,5 +143,23 @@ class Clientes:
         rowafected = self.cursor.rowcount
         self.conexion.close()
         return rowafected
+
+class Configuraciones():
+
+    def guardarObjeto(self,objeto):
+        try:
+            with open('configuraciones.bin', 'wb') as archivo:
+                pickle.dump(objeto, archivo)
+            return True
+        except:
+            return False
+
+    def recuperarObjeto(self):
+        try:
+            with open('configuraciones.bin', 'rb') as archivo:
+                objeto_recuperado = pickle.load(archivo)
+                return objeto_recuperado
+        except:
+            return None
         
 
