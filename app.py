@@ -29,10 +29,7 @@ class App(tk.Tk):
 
     def archivoDeConfiguracion(self):
         nombreArchivo = "configuraciones.bin"
-        if os.path.exists(nombreArchivo):
-            print(f"El archivo '{nombreArchivo}' ya existe.")
-        else:
-            # Crear el archivo
+        if not os.path.exists(nombreArchivo):
             with open(nombreArchivo, "wb") as archivo:
                 print(f"Se ha creado el archivo '{nombreArchivo}'.")
 
@@ -106,4 +103,3 @@ class App(tk.Tk):
         resultado = EditarConfiguraciones(self,title="Editar configuraciones")
         if resultado:
             self.framePrincipal.actualizarConfiguraciones()
-            print("actualizar config")

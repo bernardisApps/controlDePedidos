@@ -70,8 +70,12 @@ class FramePrincipal(tk.Frame):
         self.celular_variable.set(variables['celular'])
 
     def actualizarConfiguraciones(self):
-        self.empresa.set(Configuraciones().recuperarObjeto()['empresa'])
-        self.empleado.set(Configuraciones().recuperarObjeto()['empleado'])
+        if not Configuraciones().recuperarObjeto():
+            self.empresa.set("No hay nombre empresa")
+            self.empleado.set("No hay nombre de empleado")
+        else:
+            self.empresa.set(Configuraciones().recuperarObjeto()['empresa'])
+            self.empleado.set(Configuraciones().recuperarObjeto()['empleado'])
 
     def createWidgets(self):
 
